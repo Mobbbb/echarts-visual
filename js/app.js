@@ -1,6 +1,6 @@
-$(function() {
-    App = new VisualViewport(CONSTANT)
-})
+window.onload = function() {
+    App = new Visual(RENDER_CONFIG)
+}
 
 function Visual(data) {
     if (location.protocol.indexOf('file' > -1)) {
@@ -12,7 +12,7 @@ function Visual(data) {
     }
 
     this.channel = ENV // 唯一标识符
-    this.constantConfig = data
+    this.renderConfig = data
 
     this.timer = null // 轮询定时器
     this.updateTime = 1 // 更新数据的时间，01:00 - 01:59
@@ -35,18 +35,18 @@ function Visual(data) {
 
 Visual.prototype.renderCardDom = function() {
     // card module render start
-    Object.keys(this.constantConfig).forEach((key) => {
-        if (this.constantConfig[key].type === RENDER_TYPE.CHART_RENDER) {
-            renderChartModule(this.constantConfig[key])
+    Object.keys(this.renderConfig).forEach((key) => {
+        if (this.renderConfig[key].type === RENDER_TYPE.CHART_RENDER) {
+            renderChartModule(this.renderConfig[key])
         } else {
-            renderOtherModule(this.constantConfig[key])
+            renderOtherModule(this.renderConfig[key])
         }
     })
 }
 
 Visual.prototype.updateAllCardDom = async function() {
     this.queue = []
-    Object.keys(this.constantConfig).forEach((key) => {
+    Object.keys(this.renderConfig).forEach((key) => {
         this.queue.push(this.updateConfigByKey(key))
     })
     await Promise.all(this.queue)
@@ -61,20 +61,20 @@ Visual.prototype.updateCardDomByKey = async function(key) {
     // request
     await this.updateConfigByKey(key)
     // render card item
-    if (this.constantConfig[key].type === RENDER_TYPE.CHART_RENDER) {
-        renderChartModule(this.constantConfig[key])
+    if (this.renderConfig[key].type === RENDER_TYPE.CHART_RENDER) {
+        renderChartModule(this.renderConfig[key])
     } else {
-        renderOtherModule(this.constantConfig[key])
+        renderOtherModule(this.renderConfig[key])
     }
 }
 
 /**
- * @description 根据key更新<constantConfig>.key.data
+ * @description 根据key更新<renderConfig>.key.data
  * @param {String} key 
  * @returns {*}
  */
 Visual.prototype.updateConfigByKey = async function(key) {
-    let { fetchConfig = {}, data } = this.constantConfig[key] || {}
+    let { fetchConfig = {}, data } = this.renderConfig[key] || {}
     let { url, params = {}, dataProcessHandle } = fetchConfig
     let result = null
 
@@ -82,9 +82,9 @@ Visual.prototype.updateConfigByKey = async function(key) {
         result = await httpRequest(this.baseUrl + url, params)
         result = this.cacheResultByKey(key, result)
         if (dataProcessHandle) {
-            this.constantConfig[key].data = dataProcessHandle(data, result)
+            this.renderConfig[key].data = dataProcessHandle(data, result)
         } else {
-            this.constantConfig[key].data = result
+            this.renderConfig[key].data = result
         }
     }
 
@@ -132,7 +132,7 @@ Visual.prototype.pollingApiByTiming = function() {
 }
 
 Visual.prototype.updateCacheCard = function() {
-    Object.keys(this.constantConfig).forEach(async (key) => {
+    Object.keys(this.renderConfig).forEach(async (key) => {
         let dateOfLocalData = localStorage.getItem(`${key}-${this.channel}-date`)
         if (this.requestDate !== dateOfLocalData) { // 过期数据项
             await this.updateCardDomByKey(key)
