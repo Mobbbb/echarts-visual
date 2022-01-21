@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+    	<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+		<script src="./js/opt.js"></script>
+		<script src="./js/map-data.js"></script>
+		<script src="./libs/world.js"></script>
+
+		<!-- 
+			提取各个国家中心经纬度<countrydataJson>.centerMap
+			<script src="./libs/world-json.js"></script>
+			<script src="./libs/get-center.js"></script>
+		-->
+    </head>
+    <body style="height: 100%;margin: 0;width: 100%;padding-top: 1px;box-sizing: border-box;">
+		<div id="chart" style="background-color: #09123e;height: 350px;width: 610px;margin: 100px auto 0 auto;"></div>
+    </body>
+</html>
+
+<script>
+	let data = []
+	mockData.forEach((item, index) => {
+		var enName = countrydataJson.nameMapCN[item.name]
+		data.push([countrydataJson.centerMap[enName].x, countrydataJson.centerMap[enName].y, item.value, item.name])
+	})
+
+	let opt = getOpt({
+		nameMap: countrydataJson.nameMapEN, data
+	})
+	let chart = echarts.init(document.getElementById('chart'))
+	chart.setOption(opt)
+</script>
+    
