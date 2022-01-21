@@ -1,0 +1,59 @@
+@charset "utf-8";
+/* -------------@ reset css------------ */
+* {-webkit-tap-highlight-color:rgba(0,0,0,0);}
+html, body, div, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, table, th, td, input, table, textarea { margin: 0; padding: 0;}
+table { border-collapse:collapse; border-spacing:0;}
+img { border:none;}
+address,caption,cite,code,dfn,em,strong,th,var,b,i { font-style:normal; font-weight:normal;}
+ol, ul, li { list-style:none;}
+caption,th,td { text-align: center;}
+em, i { font-style: normal;}
+h1,h2,h3,h4,h5,h6 { margin: 0; padding: 0; font-size: 100%; font-weight: normal;}
+img { border:0; vertical-align:middle; -ms-interpolation-mode:bicubic;}
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+    cursor:pointer;
+    -webkit-appearance:button;
+    -moz-appearance:button;
+    *overflow:visible}
+input[type="checkbox"], input[type="radio"] { box-sizing:border-box; padding:0;}
+input[type="search"] {
+    -webkit-appearance:textfield;
+    -webkit-box-sizing:content-box;
+    -moz-appearance:textfield;
+    -moz-box-sizing:content-box;
+    box-sizing:content-box;}
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+body {
+    -ms-text-size-adjust:none;
+	-webkit-text-size-adjust:none;
+	-moz-text-size-adjust:none;
+    color: #262626;
+    font-size: 14px;
+}
+
+a{text-decoration: none;}
+
+/*------------------@ global HTML Element style--------------------*/
+body,button,input,select,textarea {
+    font-family: "Helvetica Neue", Helvetica STHeiTi, sans-serif;
+}
+
+textarea:focus {
+	outline:none medium;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-moz-tap-highlight-color: rgba(0,0,0,0);
+}
+
+textarea{
+	outline:none medium;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-moz-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body,html {
+    height: 100%;
+}
