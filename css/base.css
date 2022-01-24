@@ -1,0 +1,43 @@
+.fontSize8{
+    font-size: 1vh;
+}
+.fontSize9{
+    font-size: 1.125vh;
+}
+.fontSize10{
+    font-size: 1.25vh;
+}
+.fontSize12{
+    font-size: 1.5vh;
+}
+.fontSize13{
+    font-size: 1.625vh;
+}
+.fontSize14{
+    font-size: 1.75vh;
+}
+.fontSize16{
+    font-size: 2vh;
+}
+.fontSize26{
+    font-size: 3.25vh;
+}
+.fontSize28{
+    font-size: 3.5vh;
+}
+.fontSize36{
+    font-size: 4.5vh;
+}
+
+.left0 {
+    left: 0;
+}
+.right0 {
+    right: 0;
+}
+.bottom0 {
+    bottom: 0;
+}
+.top0 {
+    top: 0;
+}
