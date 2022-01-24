@@ -21,8 +21,6 @@ function Visual(data) {
     this.cacheDateList = [] // 数据缓存日期
     this.requestDate = getRequestDate() // 请求数据的日期
 
-    // render title
-    renderTitle()
     // render box wrapper
     renderContentBox()
     // render dom
@@ -75,14 +73,14 @@ Visual.prototype.updateCardDomByKey = async function(key) {
  */
 Visual.prototype.updateConfigByKey = async function(key) {
     let { fetchConfig = {}, data } = this.renderConfig[key] || {}
-    let { url, params = {}, dataProcessHandle } = fetchConfig
+    let { url, params = {}, dataHandling } = fetchConfig
     let result = null
 
     if (url) {
         result = await httpRequest(this.baseUrl + url, params)
         result = this.cacheResultByKey(key, result)
-        if (dataProcessHandle) {
-            this.renderConfig[key].data = dataProcessHandle(data, result)
+        if (dataHandling) {
+            this.renderConfig[key].data = dataHandling(data, result)
         } else {
             this.renderConfig[key].data = result
         }

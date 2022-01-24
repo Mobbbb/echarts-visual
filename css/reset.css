@@ -53,7 +53,3 @@ textarea{
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	-moz-tap-highlight-color: rgba(0,0,0,0);
 }
-
-body,html {
-    height: 100%;
-}

@@ -128,7 +128,7 @@
     width: 1.75vh;
     height: 1.75vh;
     border-radius: 0 0 0 4px;
-    border-top: 1px solid #00649f;
+    border-bottom: 1px solid #00649f;
     border-left: 1px solid #00649f;
     position: absolute;
 }
@@ -136,8 +136,8 @@
     width: 1.75vh;
     height: 1.75vh;
     border-radius: 0 4px 0 0;
-    border-bottom: 1px solid #00649f;
-    border-left: 1px solid #00649f;
+    border-top: 1px solid #00649f;
+    border-right: 1px solid #00649f;
     position: absolute;
 }
 ._border_right_bottom {
@@ -148,16 +148,24 @@
     border-bottom: 1px solid #00649f;
     position: absolute;
 }
-
-.left0 {
-    left: 0;
+.content-box {
+    position: relative;
+    margin-top: 1.5vh;
+    box-sizing: border-box;
+    padding: 1.5vh 1vw;
 }
-.right0 {
-    right: 0;
+.content-box-inner-wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
-.bottom0 {
-    bottom: 0;
+.content-box-title-wrap {
+    padding-bottom: 2vh;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
 }
-.top0 {
-    top: 0;
+.chart-wrap {
+    height: 100%;
+    width: 100%;
 }

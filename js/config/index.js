@@ -2,6 +2,9 @@ let App = null
 
 const ENV = 'VISUAL'
 
+// html中card容器的class name
+const CARD_WRAP_NAME = 'content-box'
+
 const CONFIG = {
     // 画布基准
     BASE_WIDTH: 1280,

@@ -7,46 +7,27 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css">
 		<link rel="stylesheet" type="text/css" href="css/gird.css">
 		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
     </head>
     <body>
 		<div id="app">
-			<div class="header-wrap" id="headerWrap"></div>
+			<div class="header-wrap fontSize26" id="headerWrap"></div>
 			<div class="banner-wrap" id="bannerWrap"></div>
 			<div class="line-row-wrap">
 				<div class="line-row">
 					<div class="line-col line-col-span-6">
-						<div class="content-box">
-							<div id="card-1"></div>
-						</div>
-						<div class="content-box">
-							<div id="card-2"></div>
-						</div>
-						<div class="content-box">
-							<div id="card-3"></div>
-						</div>
+						<div class="content-box" id="card-1"></div>
+						<div class="content-box" id="card-2"></div>
+						<div class="content-box" id="card-3"></div>
 					</div>
-				</div>
-				<div class="line-row">
 					<div class="line-col line-col-span-12">
-						<div class="content-box">
-							<div id="card-4"></div>
-						</div>
-						<div class="content-box">
-							<div id="card-5"></div>
-						</div>
+						<div class="content-box" id="card-4"></div>
+						<div class="content-box" id="card-5"></div>
 					</div>
-				</div>
-				<div class="line-row">
 					<div class="line-col line-col-span-6">
-						<div class="content-box">
-							<div id="card-6"></div>
-						</div>
-						<div class="content-box">
-							<div id="card-7"></div>
-						</div>
-						<div class="content-box">
-							<div id="card-8"></div>
-						</div>
+						<div class="content-box" id="card-6"></div>
+						<div class="content-box" id="card-7"></div>
+						<div class="content-box" id="card-8"></div>
 					</div>
 				</div>
 			</div>
@@ -54,9 +35,14 @@
 	</body>
 
 	<script type="text/javascript" src="libs/utils.js"></script>
+	<script type="text/javascript" src="libs/echarts.min.v5.2.2.js"></script>
 
 	<script type="text/javascript" src="js/config/index.js"></script>
-	<script type="text/javascript" src="js/config/render-config.js"></script>
+	<script type="text/javascript" src="js/config/option.js"></script>
+
+	<script type="text/javascript" src="js/render/render-content.js"></script>
+	<script type="text/javascript" src="js/render/render-config.js"></script>
+	<script type="text/javascript" src="js/render/index.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </html>
     
