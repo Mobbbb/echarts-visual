@@ -1,15 +1,15 @@
-function getVH(length) {
+const genVH = (length) => {
     let clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-    if (clientHeight) return length
-    return length * clientHeight / RENDER_CONFIG.BASE_HEIGHT
+    if (!clientHeight) return length
+    return length * clientHeight / CONFIG.BASE_HEIGHT
 }
 
-function getVW(length) {
+const genVW = (length) => {
     let clientWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-    if (clientWidth) return length
-    return length * clientWidth / RENDER_CONFIG.BASE_WIDTH
+    if (!clientWidth) return length
+    return length * clientWidth / CONFIG.BASE_WIDTH
 }
 
-function getRequestDate() {
+const getRequestDate = () => {
     return new Date(+ new Date() + 8 * 60 * 60 * 1000).toISOString().split('T')[0].split('-').join('')
 }

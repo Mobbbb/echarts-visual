@@ -45,7 +45,7 @@ Visual.prototype.renderCardDom = function() {
 Visual.prototype.updateAllCardDom = async function() {
     this.queue = []
     Object.keys(this.renderConfig).forEach((key) => {
-        this.queue.push(this.updateConfigByKey(key))
+        this.queue.push(this.updateCardDomByKey(key))
     })
     await Promise.all(this.queue)
 }
@@ -57,7 +57,9 @@ Visual.prototype.updateAllCardDom = async function() {
  */
 Visual.prototype.updateCardDomByKey = async function(key) {
     // request
-    await this.updateConfigByKey(key)
+    let result = await this.updateConfigByKey(key)
+    if (!result) return
+    
     // render card item
     if (this.renderConfig[key].type === RENDER_TYPE.CHART_RENDER) {
         renderChartModule(this.renderConfig[key])
