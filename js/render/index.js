@@ -2,7 +2,7 @@
  * @description 渲染card模块的修饰内容
  * @param {*} config 
  */
-function renderContentBox(config = {}) {
+const renderContentBox = (config = {}) => {
     let { border = true, background = true } = config
     let domInnerHTML = ''
     if (border) {
@@ -29,7 +29,7 @@ function renderContentBox(config = {}) {
  * @param {*} config 
  * @returns 
  */
-function renderChartModule(config) {
+const renderChartModule = (config) => {
     let domMap = renderContentBasic(config)
     if (!config.optDispatch) return
     let chartDom = document.getElementsByClassName(domMap.contentDomClass)[0]
@@ -67,7 +67,7 @@ function renderChartModule(config) {
  * @description 根据config配置渲染可视化组件之外的组件
  * @param {*} config 
  */
-function renderOtherModule(config) {
+const renderOtherModule = (config) => {
     let domMap = renderContentBasic(config)
 
     if (config.render) {
@@ -86,7 +86,7 @@ function renderOtherModule(config) {
  * @param {*} config
  * @returns 
  */
-function renderContentBasic(config) {
+const renderContentBasic = (config) => {
     let { domHeight = 200, domId, renderBasic, renderTitle, name } = config
     let dom = document.getElementById(domId)
     let domInnerHTML = '', domWrapClassName = `${domId}-inner-wrap`
@@ -131,7 +131,7 @@ function renderContentBasic(config) {
  * @description 用于window.resize时，清空节点，避免重复渲染
  * @param {'*'} classNameParams 
  */
-function emptySubDom(classNameParams) {
+const emptySubDom = (classNameParams) => {
     document.getElementsByClassName(classNameParams.beforeDomClass)[0].innerHTML = ''
     document.getElementsByClassName(classNameParams.afterDomClass)[0].innerHTML = ''
 }
@@ -140,7 +140,7 @@ function emptySubDom(classNameParams) {
  * @description 用于window.resize时，清空节点，避免重复渲染
  * @param {*} classNameParams 
  */
-function emptyAllDom(classNameParams) {
+const emptyAllDom = (classNameParams) => {
     document.getElementsByClassName(classNameParams.beforeDomClass)[0].innerHTML = ''
     document.getElementsByClassName(classNameParams.afterDomClass)[0].innerHTML = ''
     document.getElementsByClassName(classNameParams.contentDomClass)[0].innerHTML = ''

@@ -1,0 +1,30 @@
+.normal-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+.normal-table tr {
+    color: #c3d3ff;
+}
+.normal-table tr td, .normal-table tr th {
+    height: 4vh;
+    padding: 0 0.5vw;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    text-align: left;
+}
+.normal-table tr td::after, .normal-table tr th::after {
+    content: "";
+    width: calc(100% + 1px);
+    border-top: 1px solid #0c2e5e;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: scaleY(.5);
+}
