@@ -64,13 +64,21 @@ const RENDER_CONFIG = {
         domHeight: 453,
     },
     card6: {
+        type: RENDER_TYPE.CHART_RENDER,
         domId: 'card-6',
         name: '饼图环绕label',
         domHeight: 250,
+        data: pieChartData,
+        optDispatch: getCardOpt6,
+        render: renderPieRoundLabel,
+        onResize: renderPieRoundLabel,
     },
     card7: {
+        type: RENDER_TYPE.CHART_RENDER,
         domId: 'card-7',
         name: '水球图',
+        data: 0.85,
+        optDispatch: getCardOpt7,
     },
     card8: {
         domId: 'card-8',

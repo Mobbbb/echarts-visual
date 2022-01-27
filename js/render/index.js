@@ -87,43 +87,61 @@ const renderOtherModule = (config) => {
  * @returns 
  */
 const renderContentBasic = (config) => {
-    let { domHeight = 200, domId, renderBasic, renderTitle, name } = config
-    let dom = document.getElementById(domId)
-    let domInnerHTML = '', domWrapClassName = `${domId}-inner-wrap`
-    let domWrap = document.getElementsByClassName(domWrapClassName)
-    
+    const { domHeight = 200, domId, renderBasic, renderTitle, name } = config
+
     if (renderBasic === false) return renderBasic
+
+    const dom = document.getElementById(domId)
     dom.style.height = `${domHeight / CONFIG.BASE_HEIGHT * 100}vh`
 
+    let innerHTML = ''
     if (renderTitle !== false) {
-        domInnerHTML = `
-            <div class="content-box-title-wrap ${domId}-title">
-                <div class="content-box-title-icon"></div>
-                <div class="content-box-title-text fontSize14">${name}</div>
-            </div>
+        // 调价标题容器
+        innerHTML = `
+            <div class="content-box-title-icon"></div>
+            <div class="content-box-title-text fontSize14">${name}</div>
         `
+        appendContentNode({
+            dom,
+            innerHTML,
+            nodeWrapName: `${domId}-title`,
+            className: `content-box-title-wrap ${domId}-title`,
+        })
     }
 
-    domInnerHTML += `
+    // 添加内容容器
+    innerHTML = `
         <div class="before-${domId}"></div>
         <div class="chart-wrap _${domId}"></div>
         <div class="after-${domId}"></div>
     `
-
-    if (domWrap.length) {
-        domWrap.innerHTML = domInnerHTML
-    } else {
-        domWrap = document.createElement('div')
-        domWrap.className = `${domWrapClassName} content-box-inner-wrap`
-        domWrap.innerHTML = domInnerHTML
-        dom.appendChild(domWrap)
-    }
+    appendContentNode({
+        dom,
+        innerHTML,
+        nodeWrapName: `${domId}-inner-wrap`,
+        className: `content-box-inner-wrap ${domId}-inner-wrap`,
+    })
 
     return {
         beforeDomClass: `before-${domId}`,
         contentDomClass: `_${domId}`,
-        afterDomClass: `after${domId}`,
+        afterDomClass: `after-${domId}`,
         titleClass: `${domId}-title`,
+    }
+}
+
+const appendContentNode = (config) => {
+    const { dom, innerHTML, nodeWrapName, className } = config
+    let contentNodeWrap = document.getElementsByClassName(nodeWrapName)
+
+    if (contentNodeWrap.length) {
+        contentNodeWrap.innerHTML = innerHTML
+    } else {
+        contentNodeWrap = document.createElement('div')
+        contentNodeWrap.className = className
+        contentNodeWrap.innerHTML = innerHTML
+        
+        dom.appendChild(contentNodeWrap)
     }
 }
 
@@ -132,8 +150,8 @@ const renderContentBasic = (config) => {
  * @param {'*'} classNameParams 
  */
 const emptySubDom = (classNameParams) => {
-    document.getElementsByClassName(classNameParams.beforeDomClass)[0].innerHTML = ''
-    document.getElementsByClassName(classNameParams.afterDomClass)[0].innerHTML = ''
+    document.getElementsByClassName(classNameParams.beforeDomClass).innerHTML = ''
+    document.getElementsByClassName(classNameParams.afterDomClass).innerHTML = ''
 }
 
 /**
@@ -141,7 +159,7 @@ const emptySubDom = (classNameParams) => {
  * @param {*} classNameParams 
  */
 const emptyAllDom = (classNameParams) => {
-    document.getElementsByClassName(classNameParams.beforeDomClass)[0].innerHTML = ''
-    document.getElementsByClassName(classNameParams.afterDomClass)[0].innerHTML = ''
-    document.getElementsByClassName(classNameParams.contentDomClass)[0].innerHTML = ''
+    document.getElementsByClassName(classNameParams.beforeDomClass).innerHTML = ''
+    document.getElementsByClassName(classNameParams.afterDomClass).innerHTML = ''
+    document.getElementsByClassName(classNameParams.contentDomClass).innerHTML = ''
 }
