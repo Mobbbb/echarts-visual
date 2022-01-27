@@ -18,6 +18,31 @@ body {
     margin-right: 1.1vw;
 }
 
+/* 环绕label饼图 */
+.card-6-inner-wrap {
+    position: relative;
+}
+.rose-pie-label-wrap {
+    width: 2.5vmin;
+    height: 2.5vmin;
+    line-height: 2.5vmin;
+    border-radius: 50%;
+    color: #09adff;
+    position: absolute;
+    border: 1px solid #00b2e0;
+    background: #162d5d;
+}
+.rose-pie-label {
+    display: block;
+    text-align: center;
+}
+.rose-pie-label-line {
+    position: absolute;
+    left: 0;
+    border: 1px dashed #0881c84d;
+    border-radius: 50%;
+}
+
 /* 表格 */
 .normal-table-num {
     color: #00b9eb;

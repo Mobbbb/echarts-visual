@@ -262,9 +262,11 @@ const getCardOpt2 = (config, chart) => {
 
 const getCardOpt3 = (config, chart) => {
     let legendData = [], series = []
-    config.data.legend.forEach((item, index) => {
+    let { legend = [], name = [] } = config.data
+    legend.forEach((item, index) => {
         let seriesObj = {}
-        if (index < config.data.legend.length - 1) {
+        if (index < legend.length - 1) {
+            // 折线图legend
             legendData.push({
                 name: item,
                 icon: '',
@@ -273,25 +275,30 @@ const getCardOpt3 = (config, chart) => {
                     dashOffset: 1,
                 },
             })
+            // 折线样式配置
             seriesObj.type = 'line'
             seriesObj.smooth = true
             seriesObj.symbol = 'image://images/circle.png'
-            seriesObj.symbolSize = 5
+            seriesObj.symbolSize = 4
+            seriesObj.lineStyle = {
+                color: '#849fe4',
+                width: 1,
+            }
         } else {
+            // 柱状图legend
             legendData.push({
                 name: item,
                 icon: 'rect',
             })
+            // 柱状图样式配置
             seriesObj.type = 'bar'
             seriesObj.barWidth = '24%'
+            seriesObj.itemStyle = {
+                color: '#20c2c4',
+            }
         }
         seriesObj.name = item
         seriesObj.data = config.data[item]
-        seriesObj.lineStyle = {
-            color: '#427bde',
-            width: 1,
-        }
-        console.log(seriesObj)
         series.push(seriesObj)
     })
 
@@ -317,60 +324,81 @@ const getCardOpt3 = (config, chart) => {
             right: 0,
             containLabel: true,
         },
-        xAxis: {
-            type: 'category',
-            data: config.data.name,
-            axisLabel: {
-                show: true,
-                textStyle: {
-                    fontSize: genVH(8),
-                    color: '#fff',
+        xAxis: [
+            {
+                data: name,
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        fontSize: genVH(8),
+                        color: '#fff',
+                    },
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#1b5b67',
+                        width: 1,
+                        // *$坐标线延长线
+                        shadowOffsetX: 14,
+                        shadowColor: '#1b5b67',
+                    },
                 },
             },
-            axisTick: {
-                show: false,
-            },
-            axisLine: {
-                lineStyle: {
-                    color: '#1b5b67',
-                    width: 1,
-                    // *$坐标线延长线
-                    shadowOffsetX: 8,
-                    shadowColor: '#1b5b67',
+            {
+                axisLabel: {
+                    show: false,
+                },
+                axisTick: {
+                    show: false,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#1b5b67',
+                        width: 1,
+                        // *$坐标轴负方向延长线
+                        shadowOffsetX: -14,
+                        shadowColor: '#1b5b67',
+                    },
                 },
             },
-        },
-        yAxis: {
-            type: 'value',
-            axisTick: {
-                show: false,
-            },
-            axisLabel: {
-                show: true,
-                margin: 0,
-                // *$修改 axisTick 颜色
-                formatter: '{value} -',
-                textStyle: {
-                    fontSize: genVH(8),
-                    color: (value) => {
-                        // *$隐藏0坐标
-                        return value > 0 ? '#fff' : 'rgba(0, 0, 0, 0)'
-                    }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisTick: {
+                    show: false,
+                },
+                axisLabel: {
+                    show: true,
+                    margin: 0,
+                    // *$修改 axisTick 颜色
+                    formatter: '{value} -',
+                    textStyle: {
+                        fontSize: genVH(8),
+                        color: (value) => {
+                            // *$隐藏0坐标
+                            return value > 0 ? '#fff' : 'rgba(0, 0, 0, 0)'
+                        }
+                    },
+                },
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#1b5b67',
+                        width: 1,
+                        shadowOffsetY: -14,
+                        shadowColor: '#1b5b67',
+                    },
+                },
+                splitLine: {
+                    show: false,
                 },
             },
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: '#1b5b67',
-                    width: 1,
-                    shadowOffsetX: -14,
-                    shadowColor: '#1b5b67',
-                },
-            },
-            splitLine: {
-                show: false,
-            },
-        },
+            {}, // *$坐标轴负方向延长线
+        ],
         series,
     }
 }
@@ -464,5 +492,81 @@ const getCardOpt4 = (config, chart) => {
                 ],
             },
         ]
+    }
+}
+
+const getCardOpt6 = (config) => {
+    const colorList = ['#afaf36', '#9c3fca', '#6359ee', '#00afc3', '#00b88b', '#fc5800']
+    let totalNum = 0
+    config.data.forEach((item, index) => {
+        totalNum += item.value
+        item.itemStyle = {
+            color: colorList[index % 6],
+        }
+    })
+    config.startAngle = 90
+
+    return {
+        tooltip: {
+            show: false,
+        },
+        legend: {
+            show: false,
+        },
+        series: [
+            {
+                name: config.name,
+                type: 'pie',
+                startAngle: config.startAngle,
+                radius: ['6%', '70%'],
+                center: ['50%', '50%'],
+                roseType: 'radius',
+                label: {
+                    show: false,
+                },
+                labelLine: {
+                    show: false,
+                },
+                data: config.data,
+            },
+        ],
+    }
+}
+
+const getCardOpt7 = (config) => {
+    return {
+        series: [{
+            radius: '99%',
+            type: 'liquidFill',
+            data: [
+                {
+                    value: config.data + 0.05,
+                    waveLength: '90%',
+                },
+                {
+                    value: config.data,
+                    waveLength: '100%',
+                },
+            ],
+            silent: true,
+            color: ['#1b81f1cc', '#1b81f1'],
+            backgroundStyle: {
+                borderWidth: 0,
+                color: 'transparent'
+            },
+            outline: {
+                borderDistance: 3.5,
+                itemStyle: {
+                    borderColor: '#1b81f1',
+                    borderWidth: 1,
+                }
+            },
+            label: {
+                position: ['50%', '50%'],
+                formatter: 'Value: {c}',
+                fontSize: genVH(12),
+                color: '#fff',
+            }
+        }]
     }
 }
