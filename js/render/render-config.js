@@ -7,6 +7,7 @@
  * @property {Boolean} <Object>.renderBasic 是否渲染Card高度、标题、内容节点
  * @property {Array | Object} <Object>.data 渲染的数据
  * @property {Function} <Object>.optDispatch type取值为 chartRender 时，该方法需返回echarts所需的option配置
+ * @property {Function} <Object>.beforeRender 在echarts图表渲染前执行，回调参数为domMap：节点列表，config：当前的配置信息
  * @property {Function} <Object>.render 在echarts图表渲染后执行，回调参数为domMap：节点列表，config：当前的配置信息
  * @property {Function} <Object>.onResize window.resize的回调，回调参数为domMap：节点列表，config：当前的配置信息
  * @property {Function} <Object>.onMouseover echarts图表mouseover的回调
@@ -59,9 +60,13 @@ const RENDER_CONFIG = {
         optDispatch: getCardOpt4,
     },
     card5: {
+        type: RENDER_TYPE.CHART_RENDER,
         domId: 'card-5',
         name: '地图自定义label',
         domHeight: 453,
+        data: mapCityConfig,
+        optDispatch: getCardOpt5,
+        beforeRender: registerMap,
     },
     card6: {
         type: RENDER_TYPE.CHART_RENDER,

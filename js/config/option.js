@@ -495,6 +495,89 @@ const getCardOpt4 = (config, chart) => {
     }
 }
 
+const getCardOpt5 = (config) => {
+    const width = 450, height = 450, regions = [], data = []
+
+    config.data.forEach(item => {
+        let canvas = null
+        const { x, y, url, size } = item.symbolConfig || {}
+        const { offset = [0, 0], show = false } = item.labelConfig || {}
+        const dataItem = {
+            name: item.name,
+            value: [],
+        }
+
+        if (url) {
+            canvas = createCanvas(item, { width, height })
+            dataItem.value = [x, y]
+            dataItem.symbol = url
+            dataItem.symbolSize = size
+        }
+        data.push(dataItem)
+        regions.push({
+            name: item.name,
+            itemStyle: {
+                showLabel: true,
+                areaColor: '#0c2e3b',
+                borderWidth: 1,
+                borderColor: '#194f59',
+            },
+            label: {
+                show,
+                offset,
+                formatter: `{label|${item.name}}`,
+                rich: {
+                    label: {
+                        width,
+                        height,
+                        padding: [30, 0, 0, 0],
+                        fontSize: genVH(10),
+                        backgroundColor: {
+                            image: canvas || 'none'
+                        },
+                    },
+                },
+            },
+            tooltip: {
+                show: false,
+            },
+        })
+    })
+
+    return {
+        tooltip: {
+            show: false,
+        },
+        toolbox: {
+            show: false,
+        },
+        geo: {
+            show: true,
+            map: 'ZJ-MAP',
+            center: [119.80, 29.16],
+            aspectScale: 0.85,
+            label: {
+                show: true,
+                color: '#22abb0',
+                fontSize: genVH(10),
+            },
+            zoom: 1.22,
+            regions,
+            silent: true,
+        },
+        series: [
+            {
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                data,
+                emphasis: {
+                    scale: false,
+                },
+            },
+        ],
+    }
+}
+
 const getCardOpt6 = (config) => {
     const colorList = ['#afaf36', '#9c3fca', '#6359ee', '#00afc3', '#00b88b', '#fc5800']
     let totalNum = 0
