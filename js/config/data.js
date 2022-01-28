@@ -46,3 +46,96 @@ let normalTableColumn = [
         class: 'normal-table-num',
     },
 ]
+
+let mapCityConfig = [
+    {
+        name: '杭州',
+        labelConfig: {
+            show: true,
+            position: 'left-top',
+            firstPointOffsetX: 20,
+            firstPointOffsetY: 50,
+            secondPointLength: 20,
+            offset: [0, -30],
+        },
+        data: [10, 20, 30],
+        symbolConfig: {
+            x: 119.403576,
+            y: 29.987459,
+            url: 'image://./images/symbol-icon.png',
+            size: [17, 17],
+        },
+    },
+    {
+        name: '宁波',
+        labelConfig: {
+            show: true,
+            position: 'right-bottom',
+            firstPointOffsetX: 35,
+            firstPointOffsetY: 60,
+            secondPointLength: 15,
+            offset: [0, -40],
+        },
+        data: [10, 20, 30],
+        symbolConfig: {
+            x: 121.452111,
+            y: 29.900575,
+            url: 'image://./images/symbol-icon.png',
+            size: [17, 17],
+        },
+    },
+    {
+        name: '绍兴',
+        labelConfig: {
+            show: true,
+            position: 'right-top',
+            firstPointOffsetX: 30,
+            firstPointOffsetY: 40,
+            secondPointLength: 25,
+            offset: [0, 0],
+        },
+        data: [10, 20, 30],
+        symbolConfig: {
+            x: 120.600865,
+            y: 30.052653,
+            url: 'image://./images/symbol-icon.png',
+            size: [17, 17],
+        },
+    },
+    {
+        name: '衢州',
+        labelConfig: {
+            show: true,
+            position: 'left-bottom',
+            firstPointOffsetX: 10,
+            firstPointOffsetY: 50,
+            secondPointLength: 20,
+            offset: [-10, 0],
+        },
+        data: [10, 20, 30000],
+        symbolConfig: {
+            x: 118.75,
+            y: 28.960459,
+            url: 'image://./images/symbol-icon.png',
+            size: [17, 17],
+        },
+    },
+    {
+        name: '丽水',
+    },
+    {
+        name: '嘉兴',
+    },
+    {
+        name: '台州',
+    },
+    {
+        name: '金华',
+    },
+    {
+        name: '湖州',
+    },
+    {
+        name: '温州',
+    },
+]

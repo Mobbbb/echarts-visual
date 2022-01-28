@@ -31,6 +31,10 @@ const renderContentBox = (config = {}) => {
  */
 const renderChartModule = (config) => {
     let domMap = renderContentBasic(config)
+    // 回调方法执行
+    if (config.beforeRender) {
+        config.beforeRender(domMap, config)
+    }
     if (!config.optDispatch) return
     let chartDom = document.getElementsByClassName(domMap.contentDomClass)[0]
     let myChart = echarts.init(chartDom)
