@@ -3,7 +3,7 @@
  * @param {*} config 
  */
 const renderContentBox = (config = {}) => {
-    let { border = true, background = true } = config
+    let { border = true, background = true, className = CARD_WRAP_NAME } = config
     let domInnerHTML = ''
     if (border) {
         domInnerHTML += `
@@ -17,7 +17,7 @@ const renderContentBox = (config = {}) => {
         domInnerHTML += `<div class="content-box-bg"></div>`
     }
     if (domInnerHTML) {
-        let contentBoxs = document.getElementsByClassName(CARD_WRAP_NAME)
+        let contentBoxs = document.getElementsByClassName(className)
         for (let i = 0; i < contentBoxs.length; i++) {
             contentBoxs[i].innerHTML = domInnerHTML
         }

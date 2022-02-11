@@ -1,16 +1,20 @@
 window.onload = function() {
+    // render box wrapper
+    renderContentBox({
+        className: CARD_WRAP_NAME,
+    })
     App = new Visual(RENDER_CONFIG, {
         baseUrl: FETCH_API.DEV, // 接口请求host
         channel: ENV, // 唯一标识符，任意字符串
-        polling: true, // 是否开启接口定时轮询
     })
+    // polling api once an hour
+    App.pollingApiByTiming()
 }
 
-function Visual(data, opt) {
+function Visual(data, opt = {}) {
     const {
         baseUrl = '//localhost:8080',
         channel = 'arbitrary-unique-key',
-        polling = false,
     } = opt
  
     this.renderConfig = data // 渲染的配置
@@ -18,20 +22,13 @@ function Visual(data, opt) {
 
     this.queue = [] // 请求队列
     this.cacheDateList = [] // 数据缓存日期
-    this.requestDate = getRequestDate() // 请求数据的日期
+    this.requestDate = this.getRequestDate() // 请求数据的日期
     this.setBaseUrl(baseUrl)
 
-    // render box wrapper
-    renderContentBox()
     // render dom
     this.renderCardDom()
     // request data and re-render
     this.updateAllCardDom()
-
-    if (polling) {
-        // polling api once an hour
-        this.pollingApiByTiming()
-    }
 }
 
 Visual.prototype.renderCardDom = function() {
@@ -118,16 +115,20 @@ Visual.prototype.cacheResultByKey = function(key, data) {
     return result
 }
 
-Visual.prototype.pollingApiByTiming = function() {
-    this.timer = null // 轮询定时器
-    this.updateTime = 1 // 开始更新数据的时间，01:00 - 01:59
-    this.timerInterval = 1 * 60 * 60 * 1000 // 更新数据的轮询周期，1h
+Visual.prototype.pollingApiByTiming = function(opt = {}) {
+    const {
+        updateTime = 1, // 开始更新数据的时刻，01:00 - 01:59
+        timerInterval = 1 * 60 * 60 * 1000, // 更新数据的轮询周期，1h
+    } = opt
+    
+    this.updateTime = updateTime
+    this.timerInterval = timerInterval
 
     this.timer = setInterval(async () => {
         let currentHours = new Date().getHours()
         if (currentHours >= this.updateTime) { // 到达更新时间
             // 请求前先获取当前页面数据的缓存日期，并过滤出过期的缓存数据
-            this.requestDate = window.testTime || getRequestDate()
+            this.requestDate = window.testTime || this.getRequestDate()
             let oldDataList = this.cacheDateList.filter((item) => item !== this.requestDate)
             if (oldDataList.length) { // 页面存在过期的缓存数据
                 // 重新请求数据，重新设置缓存
@@ -179,4 +180,8 @@ Visual.prototype.setBaseUrl = function(baseUrl) {
     } else {
         this.baseUrl = ''
     }
+}
+
+Visual.prototype.getRequestDate = function() {
+    return new Date(+ new Date() + 8 * 60 * 60 * 1000).toISOString().split('T')[0].split('-').join('')
 }
