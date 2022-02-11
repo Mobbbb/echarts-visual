@@ -1,25 +1,25 @@
 window.onload = function() {
-    App = new Visual(RENDER_CONFIG)
+    App = new Visual(RENDER_CONFIG, {
+        baseUrl: FETCH_API.DEV, // 接口请求host
+        channel: ENV, // 唯一标识符，任意字符串
+        polling: true, // 是否开启接口定时轮询
+    })
 }
 
-function Visual(data) {
-    if (location.protocol.indexOf('file' > -1)) {
-        this.baseUrl = FETCH_API.DEV
-    } else if (this.getBaseUrl()) {
-        this.baseUrl = this.getBaseUrl()
-    } else {
-        this.baseUrl = ''
-    }
+function Visual(data, opt) {
+    const {
+        baseUrl = '//localhost:8080',
+        channel = 'arbitrary-unique-key',
+        polling = false,
+    } = opt
+ 
+    this.renderConfig = data // 渲染的配置
+    this.channel = channel // 唯一标识符
 
-    this.channel = ENV // 唯一标识符
-    this.renderConfig = data
-
-    this.timer = null // 轮询定时器
-    this.updateTime = 1 // 更新数据的时间，01:00 - 01:59
-    this.timerInterval = 1 * 60 * 60 * 1000 // 更新数据的轮询周期，1h
     this.queue = [] // 请求队列
     this.cacheDateList = [] // 数据缓存日期
     this.requestDate = getRequestDate() // 请求数据的日期
+    this.setBaseUrl(baseUrl)
 
     // render box wrapper
     renderContentBox()
@@ -27,8 +27,11 @@ function Visual(data) {
     this.renderCardDom()
     // request data and re-render
     this.updateAllCardDom()
-    // polling api once an hour
-    this.pollingApiByTiming()
+
+    if (polling) {
+        // polling api once an hour
+        this.pollingApiByTiming()
+    }
 }
 
 Visual.prototype.renderCardDom = function() {
@@ -116,6 +119,10 @@ Visual.prototype.cacheResultByKey = function(key, data) {
 }
 
 Visual.prototype.pollingApiByTiming = function() {
+    this.timer = null // 轮询定时器
+    this.updateTime = 1 // 开始更新数据的时间，01:00 - 01:59
+    this.timerInterval = 1 * 60 * 60 * 1000 // 更新数据的轮询周期，1h
+
     this.timer = setInterval(async () => {
         let currentHours = new Date().getHours()
         if (currentHours >= this.updateTime) { // 到达更新时间
@@ -156,14 +163,20 @@ Visual.prototype.openCache = function() {
     localStorage.removeItem('cacheStatus')
 }
 
-Visual.prototype.setBaseUrl = function(url) {
+Visual.prototype.setLocalStorageBaseUrl = function(url) {
     localStorage.setItem('baseUrl', url)
 }
 
-Visual.prototype.removeBaseUrl = function() {
+Visual.prototype.removeLocalStorageBaseUrl = function() {
     localStorage.removeItem('baseUrl')
 }
 
-Visual.prototype.getBaseUrl = function() {
-    return localStorage.getItem('baseUrl')
+Visual.prototype.setBaseUrl = function(baseUrl) {
+    if (location.protocol.indexOf('file' > -1)) {
+        this.baseUrl = baseUrl
+    } else if (localStorage.getItem('baseUrl')) {
+        this.baseUrl = localStorage.getItem('baseUrl')
+    } else {
+        this.baseUrl = ''
+    }
 }
