@@ -79,7 +79,16 @@ Visual.prototype.updateConfigByKey = async function(key) {
     let result = null
 
     if (url) {
-        result = await httpRequest(this.baseUrl + url, params)
+        if (Array.isArray(url)) {
+            const resultItem = []
+            url.forEach((item, index) => {
+                resultItem.push(httpRequest(this.baseUrl + item, params[index] || {}))
+            })
+            result = await Promise.all(resultItem)
+        } else {
+            result = await httpRequest(this.baseUrl + url, params)
+        }
+        
         result = this.cacheResultByKey(key, result)
         if (dataHandling) {
             this.renderConfig[key].data = dataHandling(data, result)
