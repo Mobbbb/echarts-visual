@@ -98,22 +98,27 @@ const renderContentBasic = (config) => {
     const dom = document.getElementById(domId)
     dom.style.height = `${domHeight / CONFIG.BASE_HEIGHT * 100}vh`
 
-    let innerHTML = ''
+    let innerHTML = '', titleDomHeight = 0
     if (renderTitle !== false) {
-        // 调价标题容器
+        // 添加标题容器
         innerHTML = `
             <div class="content-box-title-icon"></div>
             <div class="content-box-title-text fontSize14">${name}</div>
         `
-        appendContentNode({
+        const titleDom = appendContentNode({
             dom,
             innerHTML,
             nodeWrapName: `${domId}-title`,
             className: `content-box-title-wrap ${domId}-title`,
         })
+
+        titleDomHeight = titleDom.getBoundingClientRect().height
     }
 
     // 添加内容容器
+    const style = {
+        height: `calc(100% - ${titleDomHeight}px)`,
+    }
     innerHTML = `
         <div class="before-${domId}"></div>
         <div class="chart-wrap _${domId}"></div>
@@ -124,6 +129,7 @@ const renderContentBasic = (config) => {
         innerHTML,
         nodeWrapName: `${domId}-inner-wrap`,
         className: `content-box-inner-wrap ${domId}-inner-wrap`,
+        style,
     })
 
     return {
@@ -135,7 +141,7 @@ const renderContentBasic = (config) => {
 }
 
 const appendContentNode = (config) => {
-    const { dom, innerHTML, nodeWrapName, className } = config
+    const { dom, innerHTML, nodeWrapName, className, style = {} } = config
     let contentNodeWrap = document.getElementsByClassName(nodeWrapName)
 
     if (contentNodeWrap.length) {
@@ -144,9 +150,15 @@ const appendContentNode = (config) => {
         contentNodeWrap = document.createElement('div')
         contentNodeWrap.className = className
         contentNodeWrap.innerHTML = innerHTML
+
+        Object.keys(style).forEach(key => {
+            contentNodeWrap.style[key] = style[key]
+        })
         
         dom.appendChild(contentNodeWrap)
     }
+
+    return contentNodeWrap
 }
 
 /**

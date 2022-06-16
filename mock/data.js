@@ -56,4 +56,19 @@ let normalTableData = [
         num: '11',
         rate: '20%',
     },
+    {
+        type: 'Card类型四',
+        num: '11',
+        rate: '20%',
+    },
+    {
+        type: 'Card类型五',
+        num: '11',
+        rate: '20%',
+    },
+    {
+        type: 'Card类型六',
+        num: '11',
+        rate: '20%',
+    },
 ]

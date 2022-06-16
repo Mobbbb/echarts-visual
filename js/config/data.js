@@ -37,6 +37,7 @@ let normalTableColumn = [
         key: 'type',
         title: '类型',
         width: '40%',
+        tooltip: true,
         align: 'center',
     },
     {
