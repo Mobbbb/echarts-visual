@@ -10,8 +10,6 @@
  * @property {Function} <Object>.beforeRender 在echarts图表渲染前执行，回调参数为domMap：节点列表，config：当前的配置信息
  * @property {Function} <Object>.render 在echarts图表渲染后执行，回调参数为domMap：节点列表，config：当前的配置信息
  * @property {Function} <Object>.onResize window.resize的回调，回调参数为domMap：节点列表，config：当前的配置信息
- * @property {Function} <Object>.onMouseover echarts图表mouseover的回调
- * @property {Function} <Object>.onMouseout echarts图表mouseout的回调
  * @property {Object} <Object>.fetchConfig 接口请求的相关配置
  * @property {String} <Object>.fetchConfig.url 接口请求的路径
  * @property {Object} <Object>.fetchConfig.params 接口请求的参数

@@ -47,17 +47,7 @@ const renderChartModule = (config) => {
 
     // 回调方法执行
     if (config.render) {
-        config.render(domMap, config)
-    }
-    if (config.onMouserover) {
-        myChart.on('mouseover', (params) => {
-            config.onMouserover(params, option, myChart)
-        })
-    }
-    if (config.onMouserout) {
-        myChart.on('mouseout', (params) => {
-            config.onMouserout(params, option. myChart)
-        })
+        config.render(domMap, config, myChart)
     }
     if (config.onResize) {
         window.addEventListener('resize', () => {
