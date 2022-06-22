@@ -72,12 +72,11 @@ const renderNormalTable = (classNameParams, config) => {
     const tooltipsText = document.getElementsByClassName('tooltips-text')[0]
     const tableOverflowTextDom = document.getElementsByClassName(`${config.domId}-table-overflow-text`)
     for (let i = 0; i < tableOverflowTextDom.length; i++) {
-        console.log(tableOverflowTextDom[i].scrollWidth, tableOverflowTextDom[i].clientWidth)
         if (tableOverflowTextDom[i].scrollWidth - tableOverflowTextDom[i].clientWidth > 1) {
             tableOverflowTextDom[i].addEventListener('mouseout', () => {
                 tooltips.style.display = 'none'
             })
-    
+
             tableOverflowTextDom[i].addEventListener('mouseover', () => {
                 tooltips.style.display = 'block'
                 const fontSize = '1.125vh'
