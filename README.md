@@ -7,7 +7,7 @@
 ![avatar](./images/visual.png)
 
 ### 配置字段
-'''
+```javascript
 /**
  * @property {String} <Object>.type 渲染类型，取值为 chartRender 时，将自动渲染echarts图表，渲染的option配置为optDispatch方法的返回值。若为空，将直接调用render方法
  * @property {String} <Object>.domId 绑定节点的Id
@@ -25,4 +25,4 @@
  * @property {Object} <Object>.fetchConfig.params 接口请求的参数
  * @property {Function} <Object>.fetchConfig.dataHandling 接口请求后的回调方法，用于处理接口返回的数据，返回结果将会赋予<Object>.data
  */
- '''
+ ```
