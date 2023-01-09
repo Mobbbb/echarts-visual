@@ -94,4 +94,18 @@ const RENDER_CONFIG = {
         column: normalTableColumn,
         render: renderNormalTable,
     },
+    card9: {
+        domId: 'card-9',
+        name: '自定义渲染',
+        domHeight: 453,
+        render: renderTransBar,
+        data: transBarData,
+    },
+    card10: {
+        domId: 'card-10',
+        name: '自定义渲染',
+        domHeight: 453,
+        render: renderTransBar,
+        data: transBarData,
+    },
 }

@@ -156,3 +156,125 @@ const createCanvas = (config, size) => {
 
     return canvas
 }
+
+const renderTransBar = (classNameParams, config) => {
+    var domHeight = $(`.${classNameParams.contentDomClass}`)[0].clientHeight
+    var contentHeight = domHeight * 0.7
+    var totalNumWrapHeight = genVH(70)
+
+    var dataArr = config.data.map(item => item.value)
+    var totalNum = dataArr.reduce((prev, curr) => prev + curr)
+
+    // 转化箭头渲染
+    var customBarArrowWrap = '<div class="custom-bar-arrow-wrap">'
+    config.data.forEach(item => {
+        customBarArrowWrap += `
+            <div style="position: relative;">
+                <div class="custom-bar-arrow-label">
+                    <span class="letter-spacing">标签</span>
+                    <span style="color: #00eaff;font-size: 2.75vh;margin: 0 -2px;">${item.transValue}</span>
+                    <span style="color: #00ebff;">人</span></div>
+                <div class="custom-bar-arrow"></div>
+            </div>
+        `
+    })
+    customBarArrowWrap += '</div>'
+
+    // 图例渲染
+    var colorClass = ['yellow-point', 'green-point', 'blue-point']
+    var legendWrap = '<div class="custom-bar-legend-wrap">'
+    config.data.forEach((item, index) => {
+        legendWrap += `
+            <div class="custom-bar-legend-line">
+                <div class="custom-bar-legend-point ${colorClass[index]}"></div>
+                <div class="custom-bar-legend-title letter-spacing">${item.label}</div>
+                <div class="custom-bar-legend-value">${item.value}人</div>
+            </div>
+        `
+    })
+    legendWrap += '</div>'
+    
+    $(`.${classNameParams.contentDomClass}`).append(`
+        <div style="padding-top: ${totalNumWrapHeight}px;flex-shrink: 0;">
+            ${renderCustomBar(contentHeight - totalNumWrapHeight, config.data)}
+            <div class="total-num-wrap" style="height: ${totalNumWrapHeight}px;">
+                <div class="total-num-left">${totalNum}人</div>
+                <div class="custom-bar-legend-wrap">${legendWrap}</div>
+            </div>
+        </div>
+        ${customBarArrowWrap}
+        <div class="custom-bar-right-wrap">
+            ${renderCustomBar(domHeight * 0.3, config.data)}
+            ${renderCustomBar(domHeight * 0.3, config.data)}
+            ${renderCustomBar(domHeight * 0.3, config.data)}
+        </div>
+    `)
+}
+
+const renderCustomBar = (totalHeight, data) => {
+    var dataArr = data.map(item => item.value)
+    var totalNum = dataArr.reduce((prev, curr) => prev + curr)
+    var customBarWidth = genVW(64) // 柱宽
+    var topBottomHeight = genVH(16) // 上下底高度
+    var highlightHeight = totalHeight * 9 / 15 // 高亮条高度
+    var valueTotalHeihgt = totalHeight - topBottomHeight
+
+    var minBarHeight = topBottomHeight + 2 // 数据条最小高度
+    var yellowBarHeight = data[0].value / totalNum * valueTotalHeihgt
+    yellowBarHeight = yellowBarHeight < minBarHeight ? minBarHeight : yellowBarHeight
+    var greenBarHeight = data[1].value / (data[1].value + data[2].value) * (valueTotalHeihgt - yellowBarHeight)
+    greenBarHeight = greenBarHeight < minBarHeight ? minBarHeight : greenBarHeight
+    var blueBarHeight = valueTotalHeihgt - yellowBarHeight - greenBarHeight
+    blueBarHeight = blueBarHeight < minBarHeight ? minBarHeight : blueBarHeight
+    
+    const getCustomBar = ({ height, topHeight, color, zIndex }, data) => {
+        var lineWidth = genVH(30)
+        var lineHeight = genVH(25)
+        var lineAngle = 30
+        var pointLeft = Math.tan(Math.PI * lineAngle / 180) * (lineHeight / 2)
+        var pointRadius = 1.5
+
+        var textFontSize = '1.875vh'
+        var textContent = `${data.label} ${data.value}人`
+        var textConfig = getTextSize(textContent, textFontSize)
+        var textGap = genVH(4)
+        var lineGap = genVH(8)
+        var mistakeHeight = genVH(5)
+        return {
+            dom: `
+                <div class="custom-bar-item-wrap" style="height: ${topBottomHeight + height}px;width: ${customBarWidth}px;top: ${topHeight}px;z-index: ${zIndex};">
+                    <div class="${color}-bar-top bar-top" style="height: ${topBottomHeight}px;"></div>
+                    <div class="${color}-bar-middle bar-middle" style="height: ${height + mistakeHeight}px;top: ${topBottomHeight / 2}px;"></div>
+                    <div class="${color}-bar-bottom bar-bottom" style="height: ${topBottomHeight}px;"></div>
+                    <div class="custom-bar-label-wrap" style="right: -${lineWidth}px;top: ${(height + topBottomHeight) / 2 - lineHeight + lineGap}px;">
+                        <div class="custom-bar-label-line" style="width: ${lineWidth}px;height: ${lineHeight}px;transform: skewX(-${lineAngle}deg);"></div>
+                        <div class="custom-bar-line-point" style="left: -${pointLeft + pointRadius}px;top: ${lineHeight - pointRadius}px;
+                            width: ${pointRadius * 2}px;height: ${pointRadius * 2}px;
+                            border-radius: ${pointRadius}px;"></div>
+                        <div class="custom-bar-label-text" style="top: -${textConfig.height + textGap}px;left: ${pointLeft + textGap}px;font-size: ${textFontSize};width: ${textConfig.width}px;">
+                            <span class="custom-bar-label-title">${data.label}</span>
+                            <span class="custom-bar-label-value">${data.value}人</span>
+                        </div>
+                    </div>
+                </div>
+            `,
+            width: textConfig.width + textGap + pointLeft,
+        }
+    }
+
+    var bar1 = getCustomBar({ height: yellowBarHeight, topHeight: 0, color: 'yellow', zIndex: 4 }, data[0])
+    var bar2 = getCustomBar({ height: greenBarHeight, topHeight: yellowBarHeight, color: 'green', zIndex: 3 }, data[1])
+    var bar3 = getCustomBar({ height: blueBarHeight, topHeight: yellowBarHeight + greenBarHeight, color: 'blue', zIndex: 2 }, data[2])
+
+    var customBarWrapWidth = Math.max(bar1.width, bar2.width, bar3.width) + customBarWidth
+
+    return `
+        <div class="custom-bar-wrap" style="height: ${totalHeight}px;width: ${customBarWrapWidth}px;">
+            ${bar1.dom}
+            ${bar2.dom}
+            ${bar3.dom}
+            <div class="custom-bar-shadow" style="height: calc(100% - ${topBottomHeight}px);top: ${topBottomHeight / 2}px;width: ${customBarWidth}px;"></div>
+            <div class="custom-bar-highlight" style="height: ${highlightHeight}px;top: ${(valueTotalHeihgt - highlightHeight) / 2 + topBottomHeight}px;"></div>
+        </div>
+    `
+}

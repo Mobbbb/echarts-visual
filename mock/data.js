@@ -72,3 +72,21 @@ let normalTableData = [
         rate: '20%',
     },
 ]
+
+let transBarData = [
+    {
+        label: '标签1',
+        value: 100,
+        transValue: 80,
+    },
+    {
+        label: '标签2',
+        value: 400,
+        transValue: 320,
+    },
+    {
+        label: '标签3',
+        value: 280,
+        transValue: 165,
+    },
+]
