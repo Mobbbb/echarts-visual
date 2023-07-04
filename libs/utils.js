@@ -53,10 +53,11 @@ const getTextSize = (text, fontSize) => {
     textDom.style.color = 'transparent'
     textDom.style.lineHeight = 'normal'
     textDom.style.fontSize = fontSize
-    
+
     document.body.appendChild(textDom)
     width = textDom.clientWidth
     height = textDom.clientHeight
+    document.body.removeChild(textDom)
 
     return {
         height,
